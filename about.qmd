@@ -1,0 +1,17 @@
+---
+title: "About"
+---
+
+## Background
+
+I attended Harding University in Searcy, Arkansas for my undergraduate.  I wound up with two degrees: a BS in Mathematics and Computer Science and a BA in Spanish.  I was magna cum laude and a graduate from the Honors College with distinction.
+
+I worked as a full-stack .NET developer for a couple of years, and then I found data!  In the last 15 years I've done everything from DBA tasks to client-facing reporting suites.  I've had a variety of titles and responsibilities, but data has been at the center of them all.
+
+## Area of Focus
+
+Because of my time in sundry operations roles, I'm particularly interested in building QA systems that detect issues in both input and output.  Ideally these systems not only provide early warning of invalid input (such as nulls or duplicates) and drift (like an anomalously small or large amount of input), but also do so in an automated, ongoing manner that ensures the output is correct over the system’s whole lifecycle.
+
+## Reading
+
+Outside of work, I love to read.  I have a spreadsheet of every book I've read for the last ten years, and I will happily and endlessly chat about it.  Horror, science fiction, and fantasy are my favorite genres, but I've been known to pick up just about anything.  I'm also always looking for recommendations, so tell me about your favorite books, too!

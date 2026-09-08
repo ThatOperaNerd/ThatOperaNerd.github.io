@@ -1,0 +1,8 @@
+---
+title: "Ariana Montgomery"
+about:
+  template: jolla
+  image: images/Moi.jpg
+---
+
+Hi!  I'm Ariana, a Master of Data Science student at the University of British Columbia.  After graduating with a couple of bachelor's degrees, I worked as full-stack developer for a few years, then as a data engineer of various stripes for another 15.  I'm here to formalize and expand my knowledge of the field.
