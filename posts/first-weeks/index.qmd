@@ -1,0 +1,7 @@
+---
+title: "My first weeks in MDS"
+author: "Ariana Montgomery"
+date: 2026-09-08
+---
+
+This will be a blog post with a picture and everything.

@@ -1,10 +1,17 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Ariana Montgomery",
+    "objectID": "posts/first-weeks/index.html",
+    "href": "posts/first-weeks/index.html",
+    "title": "My first weeks in MDS",
     "section": "",
-    "text": "Hi! I’m Ariana, a Master of Data Science student at the University of British Columbia. After graduating with a couple of bachelor’s degrees, I worked as full-stack developer for a few years, then as a data engineer of various stripes for another 15. I’m here to formalize and expand my knowledge of the field."
+    "text": "This will be a blog post with a picture and everything."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "My first weeks in MDS\n\n\n\n\n\n\n\n\nSep 8, 2026\n\n\nAriana Montgomery\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -33,5 +40,12 @@
     "title": "About",
     "section": "Reading",
     "text": "Reading\nOutside of work, I love to read. I have a spreadsheet of every book I’ve read for the last ten years, and I will happily and endlessly chat about it. Horror, science fiction, and fantasy are my favorite genres, but I’ve been known to pick up just about anything. I’m also always looking for recommendations, so tell me about your favorite books, too!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ariana Montgomery",
+    "section": "",
+    "text": "Hi! I’m Ariana, a Master of Data Science student at the University of British Columbia. After graduating with a couple of bachelor’s degrees, I worked as full-stack developer for a few years, then as a data engineer of various stripes for another 15. I’m here to formalize and expand my knowledge of the field."
   }
 ]
