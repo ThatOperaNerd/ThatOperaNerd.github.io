@@ -1,0 +1,79 @@
+---
+title: "LemuroIDEA"
+author: "Ariana Montgomery"
+date: 2026-09-23
+---
+
+I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature.  Then I had a little decision tree with questions like "how many legs does it have?" to help me classify my critter.  I remember it being really convenient in comparison to flipping through a giant book of insects, and I've often looked for a similar approach for quick classification, but without much luck.  Which is probably an indication that my forth-grade science workbook was overly simplified (:surprised_pikachu:).
+
+## But . . . maybe?
+
+But what if we tried it?  Maybe not with insects, there's just too many for a simple proof of concept.  And it would also be nice to sidestep geography as a factor.  Usually if you're trying to figure out what an organism is, you'll first want to know where it came from, but that's not in the spirit of my childhood memory.  And while we're at it, let's choose something charismatic.
+
+I'm thinking lemurs.  They're a pretty unusual group of animals, with just over 100 species.  They're limited in range to the island of Madagascar, checking another box for our POC.
+
+## Getting the data
+
+While wandering down a Wiki rabbit hole some years ago, I found the ITIS taxonomic database (https://www.itis.gov/).  I believe this will do for our purposes!
+
+I downloaded a tsv of the Lemuroidea superfamily, and we can have a quick look at it:
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(readr)
+library(dplyr)
+
+lemurs <- read_tsv("lemur_taxa.txt")
+
+colnames(lemurs)
+```
+
+And let's get them organized a little bit:
+```{r}
+#| label: taxonomic-summary
+
+# Filter for valid species to build an accurate classification baseline
+valid_species <- lemurs %>% 
+  filter(taxonRank == "species", taxonomicStatus == "valid")
+
+# Preview the clean dataset columns
+glimpse(valid_species)
+
+# Calculate how many unique species exist within each Genus and Family branch
+lemur_tree_branches <- valid_species %>%
+  group_by(family, genus) %>%
+  summarise(species_count = n_distinct(specificEpithet), .groups = "drop")
+
+# Print the resulting breakdown as a readable reference table
+print(lemur_tree_branches)
+```
+
+
+## Making a tree
+
+```{r}
+#| label: fig-lemur-diversity
+#| fig-cap: "Distribution of distinct, valid species across Lemuroidea families based on ITIS records."
+
+# Aggregate counts strictly at the Family level for plotting
+family_distribution <- valid_species %>%
+  group_by(family) %>%
+  summarise(total_species = n_distinct(specificEpithet))
+
+# Set margins to prevent long text clipping
+par(mar = c(7, 4, 4, 2) + 0.1)
+
+# Generate a clean, scannable bar plot
+barplot(
+  height = family_distribution$total_species, 
+  names.arg = family_distribution$family, 
+  las = 2, 
+  col = "darkolivegreen3", 
+  main = "Lemur Species Richness by Family",
+  ylab = "Number of Valid Species"
+)
+```
+

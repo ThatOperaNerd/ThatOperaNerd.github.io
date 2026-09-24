@@ -1,2 +1,10 @@
 /.quarto/
 **/*.quarto_ipynb
+_site/
+.DS_Store
+.venv/
+renv/library/
+renv/sandbox/
+.RData
+.Rhistory
+renv/local/

@@ -1,31 +1,38 @@
 [
   {
-    "objectID": "posts/explanations/index.html",
-    "href": "posts/explanations/index.html",
-    "title": "Let Me Explain",
+    "objectID": "posts/lemuroidea/index.html",
+    "href": "posts/lemuroidea/index.html",
+    "title": "LemuroIDEA",
     "section": "",
-    "text": "You may have noticed a couple of unusual choices on this site. So right off the bat, please let me explain . . ."
+    "text": "I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature. Then I had a little decision tree with questions like “how many legs does it have?” to help me classify my critter. I remember it being really convenient in comparison to flipping through a giant book of insects, and I’ve often looked for a similar approach for quick classification, but without much luck. Which is probably an indication that my forth-grade science workbook was overly simplified (:surprised_pikachu:)."
   },
   {
-    "objectID": "posts/explanations/index.html#my-profile-picture",
-    "href": "posts/explanations/index.html#my-profile-picture",
-    "title": "Let Me Explain",
-    "section": "My Profile Picture",
-    "text": "My Profile Picture\nAs a wedding present to me, my husband (cool guy, I like him a lot) commissioned a drawing from an artist friend of ours. I used the close-up of my face as a placeholder some years ago and never got around to getting a replacement. The full drawing looks like this:\n\n\n\nSlaughtering zombies with lightsabers from the back of a velociraptor\n\n\nSaid artist friend winces whenever he looks at it and says he can do better. But I’m inordinately fond of it and don’t care if he “learned a lot in art school” or if his “style has matured” since then."
+    "objectID": "posts/lemuroidea/index.html#but-.-.-.-maybe",
+    "href": "posts/lemuroidea/index.html#but-.-.-.-maybe",
+    "title": "LemuroIDEA",
+    "section": "But . . . maybe?",
+    "text": "But . . . maybe?\nBut what if we tried it? Maybe not with insects, there’s just too many for a simple proof of concept. And it would also be nice to sidestep geography as a factor. Usually if you’re trying to figure out what an organism is, you’ll first want to know where it came from, but that’s not in the spirit of my childhood memory. And while we’re at it, let’s choose something charismatic.\nI’m thinking lemurs. They’re a pretty unusual group of animals, with just over 100 species. They’re limited in range to the island of Madagascar, checking another box for our POC."
   },
   {
-    "objectID": "posts/explanations/index.html#my-github-username",
-    "href": "posts/explanations/index.html#my-github-username",
-    "title": "Let Me Explain",
-    "section": "My GitHub Username",
-    "text": "My GitHub Username\nMy way of being a rebellious teenager was to listen exclusively to classical opera music. (Yes, I was an exceedingly odd child.) I still very much enjoy it, but no longer consider myself much of a nerd about the topic. Nevertheless, the username has stuck around, and it’s never bothered me enough to change it."
+    "objectID": "posts/lemuroidea/index.html#getting-the-data",
+    "href": "posts/lemuroidea/index.html#getting-the-data",
+    "title": "LemuroIDEA",
+    "section": "Getting the data",
+    "text": "Getting the data\nWhile wandering down a Wiki rabbit hole some years ago, I found the ITIS taxonomic database (https://www.itis.gov/). I believe this will do for our purposes!\nI downloaded a tsv of the Lemuroidea superfamily, and we can have a quick look at it:\n\nlibrary(readr)\nlibrary(dplyr)\n\nlemurs &lt;- read_tsv(\"lemur_taxa.txt\")\n\ncolnames(lemurs)\n\n [1] \"taxonID\"                  \"acceptedNameUsageID\"     \n [3] \"parentNameUsageID\"        \"scientificName\"          \n [5] \"scientificNameAuthorship\" \"kingdom\"                 \n [7] \"phylum\"                   \"class\"                   \n [9] \"order\"                    \"superfamily\"             \n[11] \"family\"                   \"genus\"                   \n[13] \"subgenus\"                 \"specificEpithet\"         \n[15] \"infraspecificEpithet\"     \"taxonRank\"               \n[17] \"taxonomicStatus\"          \"modified\"                \n[19] \"namePublishedIn\"          \"scientificNameID\"        \n[21] \"verbatimTaxonRank\"        \"taxonRemarks\"            \n[23] \"higherClassification\"    \n\n\nAnd let’s get them organized a little bit:\n\n# Filter for valid species to build an accurate classification baseline\nvalid_species &lt;- lemurs %&gt;% \n  filter(taxonRank == \"species\", taxonomicStatus == \"valid\")\n\n# Preview the clean dataset columns\nglimpse(valid_species)\n\nRows: 65\nColumns: 23\n$ taxonID                  &lt;dbl&gt; 572864, 572865, 572866, 572867, 572868, 57286…\n$ acceptedNameUsageID      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ parentNameUsageID        &lt;dbl&gt; 572788, 572788, 572788, 572788, 572788, 57278…\n$ scientificName           &lt;chr&gt; \"Eulemur fulvus (É. Geoffroy Saint-Hilaire, 1…\n$ scientificNameAuthorship &lt;chr&gt; \"(É. Geoffroy Saint-Hilaire, 1796)\", \"(Gray, …\n$ kingdom                  &lt;chr&gt; \"Animalia\", \"Animalia\", \"Animalia\", \"Animalia…\n$ phylum                   &lt;chr&gt; \"Chordata\", \"Chordata\", \"Chordata\", \"Chordata…\n$ class                    &lt;chr&gt; \"Mammalia\", \"Mammalia\", \"Mammalia\", \"Mammalia…\n$ order                    &lt;chr&gt; \"Primates\", \"Primates\", \"Primates\", \"Primates…\n$ superfamily              &lt;chr&gt; \"Lemuroidea\", \"Lemuroidea\", \"Lemuroidea\", \"Le…\n$ family                   &lt;chr&gt; \"Lemuridae\", \"Lemuridae\", \"Lemuridae\", \"Lemur…\n$ genus                    &lt;chr&gt; \"Eulemur\", \"Eulemur\", \"Eulemur\", \"Eulemur\", \"…\n$ subgenus                 &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ specificEpithet          &lt;chr&gt; \"fulvus\", \"coronatus\", \"macaco\", \"mongoz\", \"r…\n$ infraspecificEpithet     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ taxonRank                &lt;chr&gt; \"species\", \"species\", \"species\", \"species\", \"…\n$ taxonomicStatus          &lt;chr&gt; \"valid\", \"valid\", \"valid\", \"valid\", \"valid\", …\n$ modified                 &lt;date&gt; 2021-03-29, 2021-03-29, 2021-03-29, 2021-03-…\n$ namePublishedIn          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ scientificNameID         &lt;dbl&gt; 572864, 572865, 572866, 572867, 572868, 57286…\n$ verbatimTaxonRank        &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ taxonRemarks             &lt;chr&gt; \"Wilson & Reeder, eds. (2005): Status:  CITES…\n$ higherClassification     &lt;chr&gt; \"Animalia|Bilateria|Deuterostomia|Chordata|Ve…\n\n# Calculate how many unique species exist within each Genus and Family branch\nlemur_tree_branches &lt;- valid_species %&gt;%\n  group_by(family, genus) %&gt;%\n  summarise(species_count = n_distinct(specificEpithet), .groups = \"drop\")\n\n# Print the resulting breakdown as a readable reference table\nprint(lemur_tree_branches)\n\n# A tibble: 9 × 3\n  family        genus       species_count\n  &lt;chr&gt;         &lt;chr&gt;               &lt;int&gt;\n1 Indriidae     Avahi                   9\n2 Indriidae     Indri                   1\n3 Indriidae     Propithecus             9\n4 Lemuridae     Eulemur                12\n5 Lemuridae     Hapalemur               5\n6 Lemuridae     Lemur                   1\n7 Lemuridae     Prolemur                1\n8 Lemuridae     Varecia                 2\n9 Lepilemuridae Lepilemur              25"
   },
   {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog",
+    "objectID": "posts/lemuroidea/index.html#making-a-tree",
+    "href": "posts/lemuroidea/index.html#making-a-tree",
+    "title": "LemuroIDEA",
+    "section": "Making a tree",
+    "text": "Making a tree\n\n# Aggregate counts strictly at the Family level for plotting\nfamily_distribution &lt;- valid_species %&gt;%\n  group_by(family) %&gt;%\n  summarise(total_species = n_distinct(specificEpithet))\n\n# Set margins to prevent long text clipping\npar(mar = c(7, 4, 4, 2) + 0.1)\n\n# Generate a clean, scannable bar plot\nbarplot(\n  height = family_distribution$total_species, \n  names.arg = family_distribution$family, \n  las = 2, \n  col = \"darkolivegreen3\", \n  main = \"Lemur Species Richness by Family\",\n  ylab = \"Number of Valid Species\"\n)\n\n\n\n\n\n\n\nFigure 1: Distribution of distinct, valid species across Lemuroidea families based on ITIS records."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ariana Montgomery",
     "section": "",
-    "text": "Let Me Explain\n\n\n\n\n\n\n\n\nSep 8, 2026\n\n\nAriana Montgomery\n\n\n\n\n\nNo matching items"
+    "text": "Hi! I’m Ariana, a Master of Data Science student at the University of British Columbia. After graduating with a couple of bachelor’s degrees, I worked as full-stack developer for a few years, then as a data engineer of various stripes for another 15. I’m here to formalize and expand my knowledge of the field."
   },
   {
     "objectID": "about.html",
@@ -56,10 +63,31 @@
     "text": "Reading\nOutside of work, I love to read. I have a spreadsheet of every book I’ve read for the last ten years, and I will happily and endlessly chat about it. Horror, science fiction, and fantasy are my favorite genres, but I’ve been known to pick up just about anything. I’m also always looking for recommendations, so tell me about your favorite books, too!"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Ariana Montgomery",
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
     "section": "",
-    "text": "Hi! I’m Ariana, a Master of Data Science student at the University of British Columbia. After graduating with a couple of bachelor’s degrees, I worked as full-stack developer for a few years, then as a data engineer of various stripes for another 15. I’m here to formalize and expand my knowledge of the field."
+    "text": "LemuroIDEA\n\n\n\n\n\n\n\n\nSep 23, 2026\n\n\nAriana Montgomery\n\n\n\n\n\n\n\n\n\n\n\n\nLet Me Explain\n\n\n\n\n\n\n\n\nSep 8, 2026\n\n\nAriana Montgomery\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/explanations/index.html",
+    "href": "posts/explanations/index.html",
+    "title": "Let Me Explain",
+    "section": "",
+    "text": "You may have noticed a couple of unusual choices on this site. So right off the bat, please let me explain . . ."
+  },
+  {
+    "objectID": "posts/explanations/index.html#my-profile-picture",
+    "href": "posts/explanations/index.html#my-profile-picture",
+    "title": "Let Me Explain",
+    "section": "My Profile Picture",
+    "text": "My Profile Picture\nAs a wedding present to me, my husband (cool guy, I like him a lot) commissioned a drawing from an artist friend of ours. I used the close-up of my face as a placeholder some years ago and never got around to getting a replacement. The full drawing looks like this:\n\n\n\nSlaughtering zombies with lightsabers from the back of a velociraptor\n\n\nSaid artist friend winces whenever he looks at it and says he can do better. But I’m inordinately fond of it and don’t care if he “learned a lot in art school” or if his “style has matured” since then."
+  },
+  {
+    "objectID": "posts/explanations/index.html#my-github-username",
+    "href": "posts/explanations/index.html#my-github-username",
+    "title": "Let Me Explain",
+    "section": "My GitHub Username",
+    "text": "My GitHub Username\nMy way of being a rebellious teenager was to listen exclusively to classical opera music. (Yes, I was an exceedingly odd child.) I still very much enjoy it, but no longer consider myself much of a nerd about the topic. Nevertheless, the username has stuck around, and it’s never bothered me enough to change it."
   }
 ]
