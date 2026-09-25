@@ -110,6 +110,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<link href="../../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../../site_libs/d3-4.10.2/d3.min.js"></script>
+
+<link href="../../site_libs/collapsibleTree-0.1.6/collapsibleTree.css" rel="stylesheet">
+
+<script src="../../site_libs/collapsibleTree-binding-0.1.8/collapsibleTree.js"></script>
+
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -161,7 +171,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#but-.-.-.-maybe" id="toc-but-.-.-.-maybe" class="nav-link active" data-scroll-target="#but-.-.-.-maybe">But . . . maybe?</a></li>
-  <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link" data-scroll-target="#getting-the-data">Getting the data</a></li>
+  <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link" data-scroll-target="#getting-the-data">Getting the data</a>
+  <ul class="collapse">
+  <li><a href="#data-attribution" id="toc-data-attribution" class="nav-link" data-scroll-target="#data-attribution">Data Attribution</a></li>
+  </ul></li>
   <li><a href="#making-a-tree" id="toc-making-a-tree" class="nav-link" data-scroll-target="#making-a-tree">Making a tree</a></li>
   </ul>
 </nav>
@@ -200,15 +213,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature. Then I had a little decision tree with questions like “how many legs does it have?” to help me classify my critter. I remember it being really convenient in comparison to flipping through a giant book of insects, and I’ve often looked for a similar approach for quick classification, but without much luck. Which is probably an indication that my forth-grade science workbook was overly simplified (:surprised_pikachu:).</p>
+<p>I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature. Then I had a little decision tree with questions like “how many legs does it have?” to help me classify my critter. I remember it being really convenient in comparison to flipping through a giant book of insects, and I’ve often looked for a similar approach for quick classification, but without much luck. Which is probably an indication that my forth-grade science workbook was overly simplified.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="surprised_lemur.jpg" class="img-fluid figure-img"></p>
+<figcaption>I’m shocked, I tell you. Shocked.</figcaption>
+</figure>
+</div>
+<p>Photo by <a href="https://unsplash.com/@dkoplyk">Dmytro Koplyk</a> on <a href="https://unsplash.com/photos/a-black-and-white-lemur-holding-a-red-fruit-ywqyvUflZOA">Unsplash</a></p>
 <section id="but-.-.-.-maybe" class="level2">
 <h2 class="anchored" data-anchor-id="but-.-.-.-maybe">But . . . maybe?</h2>
 <p>But what if we tried it? Maybe not with insects, there’s just too many for a simple proof of concept. And it would also be nice to sidestep geography as a factor. Usually if you’re trying to figure out what an organism is, you’ll first want to know where it came from, but that’s not in the spirit of my childhood memory. And while we’re at it, let’s choose something charismatic.</p>
 <p>I’m thinking lemurs. They’re a pretty unusual group of animals, with just over 100 species. They’re limited in range to the island of Madagascar, checking another box for our POC.</p>
+<p>Plus, just look at ’em!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cute_lemur.jpg" class="img-fluid figure-img"></p>
+<figcaption>D’awww.</figcaption>
+</figure>
+</div>
+<p>Photo by <a href="https://www.pexels.com/@molnartamasphotography/">Molnár Tamás Photography™</a> on <a href="https://images.pexels.com/photos/23508701/pexels-photo-23508701.jpeg">Unsplash</a></p>
 </section>
 <section id="getting-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="getting-the-data">Getting the data</h2>
-<p>While wandering down a Wiki rabbit hole some years ago, I found the ITIS taxonomic database (https://www.itis.gov/). I believe this will do for our purposes!</p>
+<p>While wandering down a Wiki rabbit hole some years ago, I found the <a href="https://www.itis.gov/">ITIS taxonomic database</a>. I believe this will do for our purposes!</p>
+<section id="data-attribution" class="level3">
+<h3 class="anchored" data-anchor-id="data-attribution">Data Attribution</h3>
+<p>The data used in this post is the <strong>Lemuroidea superfamily taxonomic dataset</strong>, sourced directly from the <a href="https://itis.gov">Integrated Taxonomic Information System (ITIS)</a>. This publicly available dataset provides automated taxonomic data on lemurs, including valid scientific ranks, statuses, and hierarchical classifications.</p>
 <p>I downloaded a tsv of the Lemuroidea superfamily, and we can have a quick look at it:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
@@ -290,39 +321,32 @@ $ higherClassification     &lt;chr&gt; "Animalia|Bilateria|Deuterostomia|Chordat
 </div>
 </div>
 </section>
+</section>
 <section id="making-a-tree" class="level2">
 <h2 class="anchored" data-anchor-id="making-a-tree">Making a tree</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate counts strictly at the Family level for plotting</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>family_distribution <span class="ot">&lt;-</span> valid_species <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(family) <span class="sc">%&gt;%</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_species =</span> <span class="fu">n_distinct</span>(specificEpithet))</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Set margins to prevent long text clipping</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fl">0.1</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a clean, scannable bar plot</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> family_distribution<span class="sc">$</span>total_species, </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">names.arg =</span> family_distribution<span class="sc">$</span>family, </span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">las =</span> <span class="dv">2</span>, </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"darkolivegreen3"</span>, </span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Lemur Species Richness by Family"</span>,</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Number of Valid Species"</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div id="fig-lemur-diversity" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(collapsibleTree)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">collapsibleTree</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  valid_species,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">hierarchy =</span> <span class="fu">c</span>(<span class="st">"family"</span>, <span class="st">"genus"</span>, <span class="st">"specificEpithet"</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">root =</span> <span class="st">"Lemuroidea"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">zoomable =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">collapsed =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-lemur-hierarchy" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-lemur-diversity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-lemur-diversity-1.png" class="img-fluid figure-img" width="672">
+<div aria-describedby="fig-lemur-hierarchy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="collapsibleTree html-widget html-fill-item" id="htmlwidget-57cd5b1465816193e135" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-57cd5b1465816193e135">{"x":{"data":{"name":"Lemuroidea","children":[{"name":"Lemuridae","children":[{"name":"Eulemur","children":[{"name":"fulvus"},{"name":"coronatus"},{"name":"macaco"},{"name":"mongoz"},{"name":"rubriventer"},{"name":"rufus"},{"name":"rufifrons"},{"name":"albifrons"},{"name":"sanfordi"},{"name":"cinereiceps"},{"name":"collaris"},{"name":"flavifrons"}]},{"name":"Hapalemur","children":[{"name":"aureus"},{"name":"griseus"},{"name":"meridionalis"},{"name":"occidentalis"},{"name":"alaotrensis"}]},{"name":"Lemur","children":[{"name":"catta"}]},{"name":"Varecia","children":[{"name":"variegata"},{"name":"rubra"}]},{"name":"Prolemur","children":[{"name":"simus"}]}]},{"name":"Lepilemuridae","children":[{"name":"Lepilemur","children":[{"name":"dorsalis"},{"name":"edwardsi"},{"name":"leucopus"},{"name":"microdon"},{"name":"mustelinus"},{"name":"ruficaudatus"},{"name":"septentrionalis"},{"name":"betsileo"},{"name":"fleuretae"},{"name":"hollandorum"},{"name":"seali"},{"name":"scottorum"},{"name":"milanoii"},{"name":"ankaranensis"},{"name":"tymerlachsoni"},{"name":"otto"},{"name":"hubbardi"},{"name":"petteri"},{"name":"aeeclis"},{"name":"randrianasoloi"},{"name":"sahamalaza"},{"name":"ahmansoni"},{"name":"jamesi"},{"name":"wrighti"},{"name":"grewcocki"}]}]},{"name":"Indriidae","children":[{"name":"Avahi","children":[{"name":"laniger"},{"name":"mooreorum"},{"name":"peyrierasi"},{"name":"betsileo"},{"name":"ramanantsoavani"},{"name":"meridionalis"},{"name":"occidentalis"},{"name":"cleesei"},{"name":"unicolor"}]},{"name":"Indri","children":[{"name":"indri"}]},{"name":"Propithecus","children":[{"name":"diadema"},{"name":"tattersalli"},{"name":"verreauxi"},{"name":"coronatus"},{"name":"coquereli"},{"name":"edwardsi"},{"name":"candidus"},{"name":"perrieri"},{"name":"deckenii"}]}]}]},"options":{"hierarchy":["family","genus","specificEpithet"],"input":null,"attribute":"leafCount","linkLength":null,"fontSize":10,"tooltip":false,"collapsed":true,"zoomable":true,"margin":{"top":20,"bottom":20,"left":75,"right":100},"fill":"lightsteelblue"}},"evals":[],"jsHooks":[]}</script>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lemur-diversity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Distribution of distinct, valid species across Lemuroidea families based on ITIS records.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lemur-hierarchy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Interactive taxonomic tree of the Lemuroidea superfamily from Family down to individual Species.
 </figcaption>
 </figure>
 </div>
 </div>
-</div>
+<p>And that’s pretty fun! I don’t have little questions to help navigate, but I’ll come back to this. Someday.</p>
 
 
 </section>

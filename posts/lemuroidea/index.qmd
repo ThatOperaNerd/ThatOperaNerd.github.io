@@ -4,7 +4,11 @@ author: "Ariana Montgomery"
 date: 2026-09-23
 ---
 
-I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature.  Then I had a little decision tree with questions like "how many legs does it have?" to help me classify my critter.  I remember it being really convenient in comparison to flipping through a giant book of insects, and I've often looked for a similar approach for quick classification, but without much luck.  Which is probably an indication that my forth-grade science workbook was overly simplified (:surprised_pikachu:).
+I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature.  Then I had a little decision tree with questions like "how many legs does it have?" to help me classify my critter.  I remember it being really convenient in comparison to flipping through a giant book of insects, and I've often looked for a similar approach for quick classification, but without much luck.  Which is probably an indication that my forth-grade science workbook was overly simplified.
+
+![I'm shocked, I tell you.  Shocked.](surprised_lemur.jpg)
+
+Photo by [Dmytro Koplyk](https://unsplash.com/@dkoplyk) on [Unsplash](https://unsplash.com/photos/a-black-and-white-lemur-holding-a-red-fruit-ywqyvUflZOA)
 
 ## But . . . maybe?
 
@@ -12,9 +16,18 @@ But what if we tried it?  Maybe not with insects, there's just too many for a si
 
 I'm thinking lemurs.  They're a pretty unusual group of animals, with just over 100 species.  They're limited in range to the island of Madagascar, checking another box for our POC.
 
+Plus, just look at 'em!
+
+![D'awww.](cute_lemur.jpg)
+
+Photo by [Molnár Tamás Photography™](https://www.pexels.com/@molnartamasphotography/) on [Unsplash](https://images.pexels.com/photos/23508701/pexels-photo-23508701.jpeg)
+
 ## Getting the data
 
-While wandering down a Wiki rabbit hole some years ago, I found the ITIS taxonomic database (https://www.itis.gov/).  I believe this will do for our purposes!
+While wandering down a Wiki rabbit hole some years ago, I found the [ITIS taxonomic database](https://www.itis.gov/).  I believe this will do for our purposes!
+
+### Data Attribution
+The data used in this post is the **Lemuroidea superfamily taxonomic dataset**, sourced directly from the [Integrated Taxonomic Information System (ITIS)](https://itis.gov). This publicly available dataset provides automated taxonomic data on lemurs, including valid scientific ranks, statuses, and hierarchical classifications.
 
 I downloaded a tsv of the Lemuroidea superfamily, and we can have a quick look at it:
 
@@ -55,25 +68,20 @@ print(lemur_tree_branches)
 ## Making a tree
 
 ```{r}
-#| label: fig-lemur-diversity
-#| fig-cap: "Distribution of distinct, valid species across Lemuroidea families based on ITIS records."
+#| label: fig-lemur-hierarchy
+#| fig-cap: "Interactive taxonomic tree of the Lemuroidea superfamily from Family down to individual Species."
+#| message: false
+#| warning: false
 
-# Aggregate counts strictly at the Family level for plotting
-family_distribution <- valid_species %>%
-  group_by(family) %>%
-  summarise(total_species = n_distinct(specificEpithet))
+library(collapsibleTree)
 
-# Set margins to prevent long text clipping
-par(mar = c(7, 4, 4, 2) + 0.1)
-
-# Generate a clean, scannable bar plot
-barplot(
-  height = family_distribution$total_species, 
-  names.arg = family_distribution$family, 
-  las = 2, 
-  col = "darkolivegreen3", 
-  main = "Lemur Species Richness by Family",
-  ylab = "Number of Valid Species"
+collapsibleTree(
+  valid_species,
+  hierarchy = c("family", "genus", "specificEpithet"),
+  root = "Lemuroidea",
+  zoomable = TRUE,
+  collapsed = TRUE
 )
 ```
 
+And that's pretty fun!  I don't have little questions to help navigate, but I'll come back to this.  Someday.
