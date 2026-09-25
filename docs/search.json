@@ -1,38 +1,52 @@
 [
   {
-    "objectID": "posts/lemuroidea/index.html",
-    "href": "posts/lemuroidea/index.html",
-    "title": "LemuroIDEA",
+    "objectID": "posts/lemurs_again/index.html",
+    "href": "posts/lemurs_again/index.html",
+    "title": "Lemurs Again",
     "section": "",
-    "text": "I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature. Then I had a little decision tree with questions like “how many legs does it have?” to help me classify my critter. I remember it being really convenient in comparison to flipping through a giant book of insects, and I’ve often looked for a similar approach for quick classification, but without much luck. Which is probably an indication that my forth-grade science workbook was overly simplified.\nPhoto by Dmytro Koplyk on Unsplash"
+    "text": "While working on that last taxonomy post, I couldn’t help but notice the word “endangered” all over the data. How bad is it for our lemur friends, I wonder? And I’m supposed to do a Python post, so here we all are."
   },
   {
-    "objectID": "posts/lemuroidea/index.html#but-.-.-.-maybe",
-    "href": "posts/lemuroidea/index.html#but-.-.-.-maybe",
-    "title": "LemuroIDEA",
-    "section": "But . . . maybe?",
-    "text": "But . . . maybe?\nBut what if we tried it? Maybe not with insects, there’s just too many for a simple proof of concept. And it would also be nice to sidestep geography as a factor. Usually if you’re trying to figure out what an organism is, you’ll first want to know where it came from, but that’s not in the spirit of my childhood memory. And while we’re at it, let’s choose something charismatic.\nI’m thinking lemurs. They’re a pretty unusual group of animals, with just over 100 species. They’re limited in range to the island of Madagascar, checking another box for our POC.\nPlus, just look at ’em!\n\n\n\nD’awww.\n\n\nPhoto by Molnár Tamás Photography™ on Unsplash"
-  },
-  {
-    "objectID": "posts/lemuroidea/index.html#getting-the-data",
-    "href": "posts/lemuroidea/index.html#getting-the-data",
-    "title": "LemuroIDEA",
+    "objectID": "posts/lemurs_again/index.html#getting-the-data",
+    "href": "posts/lemurs_again/index.html#getting-the-data",
+    "title": "Lemurs Again",
     "section": "Getting the data",
-    "text": "Getting the data\nWhile wandering down a Wiki rabbit hole some years ago, I found the ITIS taxonomic database. I believe this will do for our purposes!\n\nData Attribution\nThe data used in this post is the Lemuroidea superfamily taxonomic dataset, sourced directly from the Integrated Taxonomic Information System (ITIS). This publicly available dataset provides automated taxonomic data on lemurs, including valid scientific ranks, statuses, and hierarchical classifications.\nI downloaded a tsv of the Lemuroidea superfamily, and we can have a quick look at it:\n\nlibrary(readr)\nlibrary(dplyr)\n\nlemurs &lt;- read_tsv(\"lemur_taxa.txt\")\n\ncolnames(lemurs)\n\n [1] \"taxonID\"                  \"acceptedNameUsageID\"     \n [3] \"parentNameUsageID\"        \"scientificName\"          \n [5] \"scientificNameAuthorship\" \"kingdom\"                 \n [7] \"phylum\"                   \"class\"                   \n [9] \"order\"                    \"superfamily\"             \n[11] \"family\"                   \"genus\"                   \n[13] \"subgenus\"                 \"specificEpithet\"         \n[15] \"infraspecificEpithet\"     \"taxonRank\"               \n[17] \"taxonomicStatus\"          \"modified\"                \n[19] \"namePublishedIn\"          \"scientificNameID\"        \n[21] \"verbatimTaxonRank\"        \"taxonRemarks\"            \n[23] \"higherClassification\"    \n\n\nAnd let’s get them organized a little bit:\n\n# Filter for valid species to build an accurate classification baseline\nvalid_species &lt;- lemurs %&gt;% \n  filter(taxonRank == \"species\", taxonomicStatus == \"valid\")\n\n# Preview the clean dataset columns\nglimpse(valid_species)\n\nRows: 65\nColumns: 23\n$ taxonID                  &lt;dbl&gt; 572864, 572865, 572866, 572867, 572868, 57286…\n$ acceptedNameUsageID      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ parentNameUsageID        &lt;dbl&gt; 572788, 572788, 572788, 572788, 572788, 57278…\n$ scientificName           &lt;chr&gt; \"Eulemur fulvus (É. Geoffroy Saint-Hilaire, 1…\n$ scientificNameAuthorship &lt;chr&gt; \"(É. Geoffroy Saint-Hilaire, 1796)\", \"(Gray, …\n$ kingdom                  &lt;chr&gt; \"Animalia\", \"Animalia\", \"Animalia\", \"Animalia…\n$ phylum                   &lt;chr&gt; \"Chordata\", \"Chordata\", \"Chordata\", \"Chordata…\n$ class                    &lt;chr&gt; \"Mammalia\", \"Mammalia\", \"Mammalia\", \"Mammalia…\n$ order                    &lt;chr&gt; \"Primates\", \"Primates\", \"Primates\", \"Primates…\n$ superfamily              &lt;chr&gt; \"Lemuroidea\", \"Lemuroidea\", \"Lemuroidea\", \"Le…\n$ family                   &lt;chr&gt; \"Lemuridae\", \"Lemuridae\", \"Lemuridae\", \"Lemur…\n$ genus                    &lt;chr&gt; \"Eulemur\", \"Eulemur\", \"Eulemur\", \"Eulemur\", \"…\n$ subgenus                 &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ specificEpithet          &lt;chr&gt; \"fulvus\", \"coronatus\", \"macaco\", \"mongoz\", \"r…\n$ infraspecificEpithet     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ taxonRank                &lt;chr&gt; \"species\", \"species\", \"species\", \"species\", \"…\n$ taxonomicStatus          &lt;chr&gt; \"valid\", \"valid\", \"valid\", \"valid\", \"valid\", …\n$ modified                 &lt;date&gt; 2021-03-29, 2021-03-29, 2021-03-29, 2021-03-…\n$ namePublishedIn          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ scientificNameID         &lt;dbl&gt; 572864, 572865, 572866, 572867, 572868, 57286…\n$ verbatimTaxonRank        &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ taxonRemarks             &lt;chr&gt; \"Wilson & Reeder, eds. (2005): Status:  CITES…\n$ higherClassification     &lt;chr&gt; \"Animalia|Bilateria|Deuterostomia|Chordata|Ve…\n\n# Calculate how many unique species exist within each Genus and Family branch\nlemur_tree_branches &lt;- valid_species %&gt;%\n  group_by(family, genus) %&gt;%\n  summarise(species_count = n_distinct(specificEpithet), .groups = \"drop\")\n\n# Print the resulting breakdown as a readable reference table\nprint(lemur_tree_branches)\n\n# A tibble: 9 × 3\n  family        genus       species_count\n  &lt;chr&gt;         &lt;chr&gt;               &lt;int&gt;\n1 Indriidae     Avahi                   9\n2 Indriidae     Indri                   1\n3 Indriidae     Propithecus             9\n4 Lemuridae     Eulemur                12\n5 Lemuridae     Hapalemur               5\n6 Lemuridae     Lemur                   1\n7 Lemuridae     Prolemur                1\n8 Lemuridae     Varecia                 2\n9 Lepilemuridae Lepilemur              25"
+    "text": "Getting the data\nJust like last time, we’ll bring in the data and do some basic filtering. Unlike last time, we’ll look for key phrases about the conservation status.\n\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv(\"../../data/lemur_taxa.txt\", sep=\"\\t\")\n\nvalid_species = df[(df[\"taxonRank\"] == \"species\") & (df[\"taxonomicStatus\"] == \"valid\")].copy()\n\nvalid_species[\"taxonRemarks\"] = valid_species[\"taxonRemarks\"].fillna(\"\")\n\ndef parse_status(text):\n    if \"Critically Endangered\" in text:\n        return \"Critically Endangered\"\n    elif \"Endangered\" in text:\n        return \"Endangered\"\n    elif \"Vulnerable\" in text:\n        return \"Vulnerable\"\n    elif \"Lower Risk\" in text:\n        return \"Lower Risk / Near Threatened\"\n    else:\n        return \"Data Deficient / Unlisted\"\n\nvalid_species[\"ConservationStatus\"] = valid_species[\"taxonRemarks\"].apply(parse_status)\n\nprint(valid_species.head())\n\n    taxonID  acceptedNameUsageID  parentNameUsageID  \\\n52   572864                  NaN           572788.0   \n55   572865                  NaN           572788.0   \n57   572866                  NaN           572788.0   \n60   572867                  NaN           572788.0   \n68   572868                  NaN           572788.0   \n\n                                       scientificName  \\\n52   Eulemur fulvus (É. Geoffroy Saint-Hilaire, 1796)   \n55                     Eulemur coronatus (Gray, 1842)   \n57                    Eulemur macaco (Linnaeus, 1766)   \n60                    Eulemur mongoz (Linnaeus, 1766)   \n68  Eulemur rubriventer (I. Geoffroy Saint-Hilaire...   \n\n             scientificNameAuthorship   kingdom    phylum     class     order  \\\n52  (É. Geoffroy Saint-Hilaire, 1796)  Animalia  Chordata  Mammalia  Primates   \n55                       (Gray, 1842)  Animalia  Chordata  Mammalia  Primates   \n57                   (Linnaeus, 1766)  Animalia  Chordata  Mammalia  Primates   \n60                   (Linnaeus, 1766)  Animalia  Chordata  Mammalia  Primates   \n68  (I. Geoffroy Saint-Hilaire, 1850)  Animalia  Chordata  Mammalia  Primates   \n\n   superfamily  ... infraspecificEpithet taxonRank  taxonomicStatus  \\\n52  Lemuroidea  ...                  NaN   species            valid   \n55  Lemuroidea  ...                  NaN   species            valid   \n57  Lemuroidea  ...                  NaN   species            valid   \n60  Lemuroidea  ...                  NaN   species            valid   \n68  Lemuroidea  ...                  NaN   species            valid   \n\n      modified namePublishedIn scientificNameID verbatimTaxonRank  \\\n52  2021-03-29             NaN           572864               NaN   \n55  2021-03-29             NaN           572865               NaN   \n57  2021-03-29             NaN           572866               NaN   \n60  2021-03-29             NaN           572867               NaN   \n68  2021-03-29             NaN           572868               NaN   \n\n                                         taxonRemarks  \\\n52  Wilson & Reeder, eds. (2005): Status:  CITES -...   \n55  Wilson & Reeder, eds. (2005): Status:  CITES -...   \n57  Wilson & Reeder, eds. (2005): Status:  CITES -...   \n60  Wilson & Reeder, eds. (2005): Status:  CITES -...   \n68  Wilson & Reeder, eds. (2005): Status:  CITES -...   \n\n                                 higherClassification     ConservationStatus  \n52  Animalia|Bilateria|Deuterostomia|Chordata|Vert...             Endangered  \n55  Animalia|Bilateria|Deuterostomia|Chordata|Vert...             Endangered  \n57  Animalia|Bilateria|Deuterostomia|Chordata|Vert...  Critically Endangered  \n60  Animalia|Bilateria|Deuterostomia|Chordata|Vert...             Endangered  \n68  Animalia|Bilateria|Deuterostomia|Chordata|Vert...             Endangered  \n\n[5 rows x 24 columns]\n\n\nAnd then group them by those conservation statuses:\n\nstatus_counts = valid_species[\"ConservationStatus\"].value_counts()\n\nprint(status_counts)\n\nConservationStatus\nEndangered                   28\nData Deficient / Unlisted    27\nCritically Endangered        10\nName: count, dtype: int64"
   },
   {
-    "objectID": "posts/lemuroidea/index.html#making-a-tree",
-    "href": "posts/lemuroidea/index.html#making-a-tree",
-    "title": "LemuroIDEA",
-    "section": "Making a tree",
-    "text": "Making a tree\n\nlibrary(collapsibleTree)\n\ncollapsibleTree(\n  valid_species,\n  hierarchy = c(\"family\", \"genus\", \"specificEpithet\"),\n  root = \"Lemuroidea\",\n  zoomable = TRUE,\n  collapsed = TRUE\n)\n\n\n\n\n\n\n\nFigure 1: Interactive taxonomic tree of the Lemuroidea superfamily from Family down to individual Species.\n\n\n\n\nAnd that’s pretty fun! I don’t have little questions to help navigate, but I’ll come back to this. Someday."
+    "objectID": "posts/lemurs_again/index.html#whats-the-verdict",
+    "href": "posts/lemurs_again/index.html#whats-the-verdict",
+    "title": "Lemurs Again",
+    "section": "What’s the verdict?",
+    "text": "What’s the verdict?\n\nlabels = status_counts.index\nsizes = status_counts.values\n\ncolors = [\"#d95f02\", \"#fdbf6f\", \"#7570b3\", \"#33a02c\", \"#b2df8a\"]\n\nfig, ax = plt.subplots(figsize=(7, 7))\n\nwedges, texts, autotexts = ax.pie(\n    sizes, \n    labels=labels, \n    autopct='%1.1f%%', \n    startangle=140, \n    colors=colors,\n    textprops=dict(color=\"black\")\n)\n\nfor autotext in autotexts:\n    autotext.set_weight('bold')\n\nax.set_title(\"Lemuroidea Global Species Preservation Metrics\", fontsize=14, weight='bold')\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigure 1: Proportion of global Lemuroidea species belonging to distinct environmental conservation urgency brackets according to ITIS metadata records.\n\n\n\n\n\nSo, um, yeah, go hug a lemur, I guess.\n\nData Attribution\nThe data used in this post is the Lemuroidea superfamily taxonomic dataset, sourced directly from the Integrated Taxonomic Information System (ITIS). This publicly available dataset provides automated taxonomic data on lemurs, including valid scientific ranks, statuses, and hierarchical classifications.\nAI Assistance Disclosure: This blog post was developed with the assistance of Gemini, an AI collaborator. Gemini was used to assist with designing the text-parsing required to clean unstructured regulatory text columns into categorical variables and design the graph layout. All final visualizations and content were verified and curated by the author."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Ariana Montgomery",
+    "objectID": "posts/explanations/index.html",
+    "href": "posts/explanations/index.html",
+    "title": "Let Me Explain",
     "section": "",
-    "text": "Hi! I’m Ariana, a Master of Data Science student at the University of British Columbia. After graduating with a couple of bachelor’s degrees, I worked as full-stack developer for a few years, then as a data engineer of various stripes for another 15. I’m here to formalize and expand my knowledge of the field."
+    "text": "You may have noticed a couple of unusual choices on this site. So right off the bat, please let me explain . . ."
+  },
+  {
+    "objectID": "posts/explanations/index.html#my-profile-picture",
+    "href": "posts/explanations/index.html#my-profile-picture",
+    "title": "Let Me Explain",
+    "section": "My Profile Picture",
+    "text": "My Profile Picture\nAs a wedding present to me, my husband (cool guy, I like him a lot) commissioned a drawing from an artist friend of ours. I used the close-up of my face as a placeholder some years ago and never got around to getting a replacement. The full drawing looks like this:\n\n\n\nSlaughtering zombies with lightsabers from the back of a velociraptor\n\n\nSaid artist friend winces whenever he looks at it and says he can do better. But I’m inordinately fond of it and don’t care if he “learned a lot in art school” or if his “style has matured” since then."
+  },
+  {
+    "objectID": "posts/explanations/index.html#my-github-username",
+    "href": "posts/explanations/index.html#my-github-username",
+    "title": "Let Me Explain",
+    "section": "My GitHub Username",
+    "text": "My GitHub Username\nMy way of being a rebellious teenager was to listen exclusively to classical opera music. (Yes, I was an exceedingly odd child.) I still very much enjoy it, but no longer consider myself much of a nerd about the topic. Nevertheless, the username has stuck around, and it’s never bothered me enough to change it."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Lemurs Again\n\n\n\n\n\n\n\n\nSep 24, 2026\n\n\nAriana Montgomery\n\n\n\n\n\n\n\n\n\n\n\n\nLemuroIDEA\n\n\n\n\n\n\n\n\nSep 23, 2026\n\n\nAriana Montgomery\n\n\n\n\n\n\n\n\n\n\n\n\nLet Me Explain\n\n\n\n\n\n\n\n\nSep 8, 2026\n\n\nAriana Montgomery\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -63,31 +77,38 @@
     "text": "Reading\nOutside of work, I love to read. I have a spreadsheet of every book I’ve read for the last ten years, and I will happily and endlessly chat about it. Horror, science fiction, and fantasy are my favorite genres, but I’ve been known to pick up just about anything. I’m also always looking for recommendations, so tell me about your favorite books, too!"
   },
   {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ariana Montgomery",
     "section": "",
-    "text": "LemuroIDEA\n\n\n\n\n\n\n\n\nSep 23, 2026\n\n\nAriana Montgomery\n\n\n\n\n\n\n\n\n\n\n\n\nLet Me Explain\n\n\n\n\n\n\n\n\nSep 8, 2026\n\n\nAriana Montgomery\n\n\n\n\n\nNo matching items"
+    "text": "Hi! I’m Ariana, a Master of Data Science student at the University of British Columbia. After graduating with a couple of bachelor’s degrees, I worked as full-stack developer for a few years, then as a data engineer of various stripes for another 15. I’m here to formalize and expand my knowledge of the field."
   },
   {
-    "objectID": "posts/explanations/index.html",
-    "href": "posts/explanations/index.html",
-    "title": "Let Me Explain",
+    "objectID": "posts/lemuroidea/index.html",
+    "href": "posts/lemuroidea/index.html",
+    "title": "LemuroIDEA",
     "section": "",
-    "text": "You may have noticed a couple of unusual choices on this site. So right off the bat, please let me explain . . ."
+    "text": "I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature. Then I had a little decision tree with questions like “how many legs does it have?” to help me classify my critter. I remember it being really convenient in comparison to flipping through a giant book of insects, and I’ve often looked for a similar approach for quick classification, but without much luck. Which is probably an indication that my forth-grade science workbook was overly simplified.\nPhoto by Dmytro Koplyk on Unsplash"
   },
   {
-    "objectID": "posts/explanations/index.html#my-profile-picture",
-    "href": "posts/explanations/index.html#my-profile-picture",
-    "title": "Let Me Explain",
-    "section": "My Profile Picture",
-    "text": "My Profile Picture\nAs a wedding present to me, my husband (cool guy, I like him a lot) commissioned a drawing from an artist friend of ours. I used the close-up of my face as a placeholder some years ago and never got around to getting a replacement. The full drawing looks like this:\n\n\n\nSlaughtering zombies with lightsabers from the back of a velociraptor\n\n\nSaid artist friend winces whenever he looks at it and says he can do better. But I’m inordinately fond of it and don’t care if he “learned a lot in art school” or if his “style has matured” since then."
+    "objectID": "posts/lemuroidea/index.html#but-.-.-.-maybe",
+    "href": "posts/lemuroidea/index.html#but-.-.-.-maybe",
+    "title": "LemuroIDEA",
+    "section": "But . . . maybe?",
+    "text": "But . . . maybe?\nBut what if we tried it? Maybe not with insects, there’s just too many for a simple proof of concept. And it would also be nice to sidestep geography as a factor. Usually if you’re trying to figure out what an organism is, you’ll first want to know where it came from, but that’s not in the spirit of my childhood memory. And while we’re at it, let’s choose something charismatic.\nI’m thinking lemurs. They’re a pretty unusual group of animals, with just over 100 species. They’re limited in range to the island of Madagascar, checking another box for our POC.\nPlus, just look at ’em!\n\n\n\nD’awww.\n\n\nPhoto by Molnár Tamás Photography™ on Unsplash"
   },
   {
-    "objectID": "posts/explanations/index.html#my-github-username",
-    "href": "posts/explanations/index.html#my-github-username",
-    "title": "Let Me Explain",
-    "section": "My GitHub Username",
-    "text": "My GitHub Username\nMy way of being a rebellious teenager was to listen exclusively to classical opera music. (Yes, I was an exceedingly odd child.) I still very much enjoy it, but no longer consider myself much of a nerd about the topic. Nevertheless, the username has stuck around, and it’s never bothered me enough to change it."
+    "objectID": "posts/lemuroidea/index.html#getting-the-data",
+    "href": "posts/lemuroidea/index.html#getting-the-data",
+    "title": "LemuroIDEA",
+    "section": "Getting the data",
+    "text": "Getting the data\nWhile wandering down a Wiki rabbit hole some years ago, I found the ITIS taxonomic database. I believe this will do for our purposes!\nI downloaded a tsv of the Lemuroidea superfamily, and we can have a quick look at it:\n\nlibrary(readr)\nlibrary(dplyr)\n\nlemurs &lt;- read_tsv(\"../../data/lemur_taxa.txt\")\n\ncolnames(lemurs)\n\n [1] \"taxonID\"                  \"acceptedNameUsageID\"     \n [3] \"parentNameUsageID\"        \"scientificName\"          \n [5] \"scientificNameAuthorship\" \"kingdom\"                 \n [7] \"phylum\"                   \"class\"                   \n [9] \"order\"                    \"superfamily\"             \n[11] \"family\"                   \"genus\"                   \n[13] \"subgenus\"                 \"specificEpithet\"         \n[15] \"infraspecificEpithet\"     \"taxonRank\"               \n[17] \"taxonomicStatus\"          \"modified\"                \n[19] \"namePublishedIn\"          \"scientificNameID\"        \n[21] \"verbatimTaxonRank\"        \"taxonRemarks\"            \n[23] \"higherClassification\"    \n\n\nAnd let’s get them organized a little bit:\n\n# The taxa are all nested, so we just can filter for just the species rows.  And some taxa are obsolete for whatever reasons.\nvalid_species &lt;- lemurs |&gt; \n  filter(taxonRank == \"species\", taxonomicStatus == \"valid\")\n\nhead(valid_species)\n\n# A tibble: 6 × 23\n  taxonID acceptedNameUsageID parentNameUsageID scientificName                  \n    &lt;dbl&gt;               &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt;                           \n1  572864                  NA            572788 Eulemur fulvus (É. Geoffroy Sai…\n2  572865                  NA            572788 Eulemur coronatus (Gray, 1842)  \n3  572866                  NA            572788 Eulemur macaco (Linnaeus, 1766) \n4  572867                  NA            572788 Eulemur mongoz (Linnaeus, 1766) \n5  572868                  NA            572788 Eulemur rubriventer (I. Geoffro…\n6  572869                  NA            572789 Hapalemur aureus Meier, Albigna…\n# ℹ 19 more variables: scientificNameAuthorship &lt;chr&gt;, kingdom &lt;chr&gt;,\n#   phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, superfamily &lt;chr&gt;, family &lt;chr&gt;,\n#   genus &lt;chr&gt;, subgenus &lt;lgl&gt;, specificEpithet &lt;chr&gt;,\n#   infraspecificEpithet &lt;chr&gt;, taxonRank &lt;chr&gt;, taxonomicStatus &lt;chr&gt;,\n#   modified &lt;date&gt;, namePublishedIn &lt;lgl&gt;, scientificNameID &lt;dbl&gt;,\n#   verbatimTaxonRank &lt;lgl&gt;, taxonRemarks &lt;chr&gt;, higherClassification &lt;chr&gt;"
+  },
+  {
+    "objectID": "posts/lemuroidea/index.html#making-a-tree",
+    "href": "posts/lemuroidea/index.html#making-a-tree",
+    "title": "LemuroIDEA",
+    "section": "Making a tree",
+    "text": "Making a tree\n\nlibrary(collapsibleTree)\n\ncollapsibleTree(\n  valid_species,\n  hierarchy = c(\"family\", \"genus\", \"specificEpithet\"),\n  root = \"Lemuroidea\",\n  zoomable = TRUE,\n  collapsed = TRUE\n)\n\n\n\n\n\n\n\nFigure 1: Interactive taxonomic tree of the Lemuroidea superfamily from Family down to individual Species.\n\n\n\n\nAnd that’s pretty fun! I don’t have little questions to help navigate, but I’ll come back to this. Someday.\n\nData Attribution\nThe data used in this post is the Lemuroidea superfamily taxonomic dataset, sourced directly from the Integrated Taxonomic Information System (ITIS). This publicly available dataset provides automated taxonomic data on lemurs, including valid scientific ranks, statuses, and hierarchical classifications.\nAI Assistance Disclosure: This blog post was developed with the assistance of Gemini, an AI collaborator. Gemini was used as a pedagogical peer to help troubleshoot local renv library dependencies and design the interactive network graph layout. All final analytical conclusions and editorial writing were reviewed and finalized by the author."
   }
 ]

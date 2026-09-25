@@ -1,0 +1,93 @@
+---
+title: "Lemurs Again"
+author: "Ariana Montgomery"
+date: 2026-09-24
+---
+
+While working on that last taxonomy post, I couldn't help but notice the word "endangered" all over the data.  How bad is it for our lemur friends, I wonder?  And I'm supposed to do a Python post, so here we all are.
+
+## Getting the data
+
+Just like last time, we'll bring in the data and do some basic filtering.  Unlike last time, we'll look for key phrases about the conservation status.
+
+```{python}
+#| label: setup-python
+#| warning: false
+#| message: false
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("../../data/lemur_taxa.txt", sep="\t")
+
+valid_species = df[(df["taxonRank"] == "species") & (df["taxonomicStatus"] == "valid")].copy()
+
+valid_species["taxonRemarks"] = valid_species["taxonRemarks"].fillna("")
+
+def parse_status(text):
+    if "Critically Endangered" in text:
+        return "Critically Endangered"
+    elif "Endangered" in text:
+        return "Endangered"
+    elif "Vulnerable" in text:
+        return "Vulnerable"
+    elif "Lower Risk" in text:
+        return "Lower Risk / Near Threatened"
+    else:
+        return "Data Deficient / Unlisted"
+
+valid_species["ConservationStatus"] = valid_species["taxonRemarks"].apply(parse_status)
+
+print(valid_species.head())
+```
+
+
+And then group them by those conservation statuses:
+
+```{python}
+#| label: status-aggregation
+
+status_counts = valid_species["ConservationStatus"].value_counts()
+
+print(status_counts)
+```
+
+
+## What's the verdict?
+
+```{python}
+#| label: fig-conservation-pie
+#| fig-cap: "Proportion of global Lemuroidea species belonging to distinct environmental conservation urgency brackets according to ITIS metadata records."
+
+labels = status_counts.index
+sizes = status_counts.values
+
+colors = ["#d95f02", "#fdbf6f", "#7570b3", "#33a02c", "#b2df8a"]
+
+fig, ax = plt.subplots(figsize=(7, 7))
+
+wedges, texts, autotexts = ax.pie(
+    sizes, 
+    labels=labels, 
+    autopct='%1.1f%%', 
+    startangle=140, 
+    colors=colors,
+    textprops=dict(color="black")
+)
+
+for autotext in autotexts:
+    autotext.set_weight('bold')
+
+ax.set_title("Lemuroidea Global Species Preservation Metrics", fontsize=14, weight='bold')
+plt.tight_layout()
+plt.show()
+```
+
+So, um, yeah, go hug a lemur, I guess.
+
+
+### Data Attribution
+The data used in this post is the **Lemuroidea superfamily taxonomic dataset**, sourced directly from the [Integrated Taxonomic Information System (ITIS)](https://itis.gov).  This publicly available dataset provides automated taxonomic data on lemurs, including valid scientific ranks, statuses, and hierarchical classifications.
+
+**AI Assistance Disclosure:**
+This blog post was developed with the assistance of Gemini, an AI collaborator. Gemini was used to assist with designing the text-parsing required to clean unstructured regulatory text columns into categorical variables and design the graph layout.  All final visualizations and content were verified and curated by the author.

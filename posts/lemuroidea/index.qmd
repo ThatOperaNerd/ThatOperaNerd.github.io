@@ -26,9 +26,6 @@ Photo by [Molnár Tamás Photography™](https://www.pexels.com/@molnartamasphot
 
 While wandering down a Wiki rabbit hole some years ago, I found the [ITIS taxonomic database](https://www.itis.gov/).  I believe this will do for our purposes!
 
-### Data Attribution
-The data used in this post is the **Lemuroidea superfamily taxonomic dataset**, sourced directly from the [Integrated Taxonomic Information System (ITIS)](https://itis.gov). This publicly available dataset provides automated taxonomic data on lemurs, including valid scientific ranks, statuses, and hierarchical classifications.
-
 I downloaded a tsv of the Lemuroidea superfamily, and we can have a quick look at it:
 
 ```{r}
@@ -39,7 +36,7 @@ I downloaded a tsv of the Lemuroidea superfamily, and we can have a quick look a
 library(readr)
 library(dplyr)
 
-lemurs <- read_tsv("lemur_taxa.txt")
+lemurs <- read_tsv("../../data/lemur_taxa.txt")
 
 colnames(lemurs)
 ```
@@ -48,20 +45,12 @@ And let's get them organized a little bit:
 ```{r}
 #| label: taxonomic-summary
 
-# Filter for valid species to build an accurate classification baseline
-valid_species <- lemurs %>% 
+# The taxa are all nested, so we just can filter for just the species rows.  And some taxa are obsolete for whatever reasons.
+valid_species <- lemurs |> 
   filter(taxonRank == "species", taxonomicStatus == "valid")
 
-# Preview the clean dataset columns
-glimpse(valid_species)
+head(valid_species)
 
-# Calculate how many unique species exist within each Genus and Family branch
-lemur_tree_branches <- valid_species %>%
-  group_by(family, genus) %>%
-  summarise(species_count = n_distinct(specificEpithet), .groups = "drop")
-
-# Print the resulting breakdown as a readable reference table
-print(lemur_tree_branches)
 ```
 
 
@@ -85,3 +74,11 @@ collapsibleTree(
 ```
 
 And that's pretty fun!  I don't have little questions to help navigate, but I'll come back to this.  Someday.
+
+
+
+### Data Attribution
+The data used in this post is the **Lemuroidea superfamily taxonomic dataset**, sourced directly from the [Integrated Taxonomic Information System (ITIS)](https://itis.gov).  This publicly available dataset provides automated taxonomic data on lemurs, including valid scientific ranks, statuses, and hierarchical classifications.
+
+**AI Assistance Disclosure:**
+This blog post was developed with the assistance of Gemini, an AI collaborator. Gemini was used as a pedagogical peer to help troubleshoot local `renv` library dependencies and design the interactive network graph layout.  All final analytical conclusions and editorial writing were reviewed and finalized by the author.

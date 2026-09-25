@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ariana Montgomery">
-<meta name="dcterms.date" content="2026-09-23">
+<meta name="dcterms.date" content="2026-09-24">
 
-<title>LemuroIDEA – Ariana Montgomery</title>
+<title>Lemurs Again – Ariana Montgomery</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -110,16 +110,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<link href="../../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
-
-<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-
-<script src="../../site_libs/d3-4.10.2/d3.min.js"></script>
-
-<link href="../../site_libs/collapsibleTree-0.1.6/collapsibleTree.css" rel="stylesheet">
-
-<script src="../../site_libs/collapsibleTree-binding-0.1.8/collapsibleTree.js"></script>
-
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -170,9 +160,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#but-.-.-.-maybe" id="toc-but-.-.-.-maybe" class="nav-link active" data-scroll-target="#but-.-.-.-maybe">But . . . maybe?</a></li>
-  <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link" data-scroll-target="#getting-the-data">Getting the data</a></li>
-  <li><a href="#making-a-tree" id="toc-making-a-tree" class="nav-link" data-scroll-target="#making-a-tree">Making a tree</a>
+  <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link active" data-scroll-target="#getting-the-data">Getting the data</a></li>
+  <li><a href="#whats-the-verdict" id="toc-whats-the-verdict" class="nav-link" data-scroll-target="#whats-the-verdict">What’s the verdict?</a>
   <ul class="collapse">
   <li><a href="#data-attribution" id="toc-data-attribution" class="nav-link" data-scroll-target="#data-attribution">Data Attribution</a></li>
   </ul></li>
@@ -184,7 +173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">LemuroIDEA</h1>
+<h1 class="title">Lemurs Again</h1>
 </div>
 
 
@@ -201,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 23, 2026</p>
+      <p class="date">September 24, 2026</p>
     </div>
   </div>
   
@@ -213,108 +202,145 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature. Then I had a little decision tree with questions like “how many legs does it have?” to help me classify my critter. I remember it being really convenient in comparison to flipping through a giant book of insects, and I’ve often looked for a similar approach for quick classification, but without much luck. Which is probably an indication that my forth-grade science workbook was overly simplified.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="surprised_lemur.jpg" class="img-fluid figure-img"></p>
-<figcaption>I’m shocked, I tell you. Shocked.</figcaption>
-</figure>
-</div>
-<p>Photo by <a href="https://unsplash.com/@dkoplyk">Dmytro Koplyk</a> on <a href="https://unsplash.com/photos/a-black-and-white-lemur-holding-a-red-fruit-ywqyvUflZOA">Unsplash</a></p>
-<section id="but-.-.-.-maybe" class="level2">
-<h2 class="anchored" data-anchor-id="but-.-.-.-maybe">But . . . maybe?</h2>
-<p>But what if we tried it? Maybe not with insects, there’s just too many for a simple proof of concept. And it would also be nice to sidestep geography as a factor. Usually if you’re trying to figure out what an organism is, you’ll first want to know where it came from, but that’s not in the spirit of my childhood memory. And while we’re at it, let’s choose something charismatic.</p>
-<p>I’m thinking lemurs. They’re a pretty unusual group of animals, with just over 100 species. They’re limited in range to the island of Madagascar, checking another box for our POC.</p>
-<p>Plus, just look at ’em!</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="cute_lemur.jpg" class="img-fluid figure-img"></p>
-<figcaption>D’awww.</figcaption>
-</figure>
-</div>
-<p>Photo by <a href="https://www.pexels.com/@molnartamasphotography/">Molnár Tamás Photography™</a> on <a href="https://images.pexels.com/photos/23508701/pexels-photo-23508701.jpeg">Unsplash</a></p>
-</section>
+<p>While working on that last taxonomy post, I couldn’t help but notice the word “endangered” all over the data. How bad is it for our lemur friends, I wonder? And I’m supposed to do a Python post, so here we all are.</p>
 <section id="getting-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="getting-the-data">Getting the data</h2>
-<p>While wandering down a Wiki rabbit hole some years ago, I found the <a href="https://www.itis.gov/">ITIS taxonomic database</a>. I believe this will do for our purposes!</p>
-<p>I downloaded a tsv of the Lemuroidea superfamily, and we can have a quick look at it:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<p>Just like last time, we’ll bring in the data and do some basic filtering. Unlike last time, we’ll look for key phrases about the conservation status.</p>
+<div id="setup-python" class="cell" data-message="false" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>lemurs <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"../../data/lemur_taxa.txt"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/lemur_taxa.txt"</span>, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(lemurs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>valid_species <span class="op">=</span> df[(df[<span class="st">"taxonRank"</span>] <span class="op">==</span> <span class="st">"species"</span>) <span class="op">&amp;</span> (df[<span class="st">"taxonomicStatus"</span>] <span class="op">==</span> <span class="st">"valid"</span>)].copy()</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>valid_species[<span class="st">"taxonRemarks"</span>] <span class="op">=</span> valid_species[<span class="st">"taxonRemarks"</span>].fillna(<span class="st">""</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_status(text):</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"Critically Endangered"</span> <span class="kw">in</span> text:</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Critically Endangered"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">"Endangered"</span> <span class="kw">in</span> text:</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Endangered"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">"Vulnerable"</span> <span class="kw">in</span> text:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Vulnerable"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">"Lower Risk"</span> <span class="kw">in</span> text:</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Lower Risk / Near Threatened"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Data Deficient / Unlisted"</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>valid_species[<span class="st">"ConservationStatus"</span>] <span class="op">=</span> valid_species[<span class="st">"taxonRemarks"</span>].<span class="bu">apply</span>(parse_status)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(valid_species.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "taxonID"                  "acceptedNameUsageID"     
- [3] "parentNameUsageID"        "scientificName"          
- [5] "scientificNameAuthorship" "kingdom"                 
- [7] "phylum"                   "class"                   
- [9] "order"                    "superfamily"             
-[11] "family"                   "genus"                   
-[13] "subgenus"                 "specificEpithet"         
-[15] "infraspecificEpithet"     "taxonRank"               
-[17] "taxonomicStatus"          "modified"                
-[19] "namePublishedIn"          "scientificNameID"        
-[21] "verbatimTaxonRank"        "taxonRemarks"            
-[23] "higherClassification"    </code></pre>
+<pre><code>    taxonID  acceptedNameUsageID  parentNameUsageID  \
+52   572864                  NaN           572788.0   
+55   572865                  NaN           572788.0   
+57   572866                  NaN           572788.0   
+60   572867                  NaN           572788.0   
+68   572868                  NaN           572788.0   
+
+                                       scientificName  \
+52   Eulemur fulvus (É. Geoffroy Saint-Hilaire, 1796)   
+55                     Eulemur coronatus (Gray, 1842)   
+57                    Eulemur macaco (Linnaeus, 1766)   
+60                    Eulemur mongoz (Linnaeus, 1766)   
+68  Eulemur rubriventer (I. Geoffroy Saint-Hilaire...   
+
+             scientificNameAuthorship   kingdom    phylum     class     order  \
+52  (É. Geoffroy Saint-Hilaire, 1796)  Animalia  Chordata  Mammalia  Primates   
+55                       (Gray, 1842)  Animalia  Chordata  Mammalia  Primates   
+57                   (Linnaeus, 1766)  Animalia  Chordata  Mammalia  Primates   
+60                   (Linnaeus, 1766)  Animalia  Chordata  Mammalia  Primates   
+68  (I. Geoffroy Saint-Hilaire, 1850)  Animalia  Chordata  Mammalia  Primates   
+
+   superfamily  ... infraspecificEpithet taxonRank  taxonomicStatus  \
+52  Lemuroidea  ...                  NaN   species            valid   
+55  Lemuroidea  ...                  NaN   species            valid   
+57  Lemuroidea  ...                  NaN   species            valid   
+60  Lemuroidea  ...                  NaN   species            valid   
+68  Lemuroidea  ...                  NaN   species            valid   
+
+      modified namePublishedIn scientificNameID verbatimTaxonRank  \
+52  2021-03-29             NaN           572864               NaN   
+55  2021-03-29             NaN           572865               NaN   
+57  2021-03-29             NaN           572866               NaN   
+60  2021-03-29             NaN           572867               NaN   
+68  2021-03-29             NaN           572868               NaN   
+
+                                         taxonRemarks  \
+52  Wilson &amp; Reeder, eds. (2005): Status:  CITES -...   
+55  Wilson &amp; Reeder, eds. (2005): Status:  CITES -...   
+57  Wilson &amp; Reeder, eds. (2005): Status:  CITES -...   
+60  Wilson &amp; Reeder, eds. (2005): Status:  CITES -...   
+68  Wilson &amp; Reeder, eds. (2005): Status:  CITES -...   
+
+                                 higherClassification     ConservationStatus  
+52  Animalia|Bilateria|Deuterostomia|Chordata|Vert...             Endangered  
+55  Animalia|Bilateria|Deuterostomia|Chordata|Vert...             Endangered  
+57  Animalia|Bilateria|Deuterostomia|Chordata|Vert...  Critically Endangered  
+60  Animalia|Bilateria|Deuterostomia|Chordata|Vert...             Endangered  
+68  Animalia|Bilateria|Deuterostomia|Chordata|Vert...             Endangered  
+
+[5 rows x 24 columns]</code></pre>
 </div>
 </div>
-<p>And let’s get them organized a little bit:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The taxa are all nested, so we just can filter for just the species rows.  And some taxa are obsolete for whatever reasons.</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>valid_species <span class="ot">&lt;-</span> lemurs <span class="sc">|&gt;</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(taxonRank <span class="sc">==</span> <span class="st">"species"</span>, taxonomicStatus <span class="sc">==</span> <span class="st">"valid"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(valid_species)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>And then group them by those conservation statuses:</p>
+<div id="status-aggregation" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>status_counts <span class="op">=</span> valid_species[<span class="st">"ConservationStatus"</span>].value_counts()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(status_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 23
-  taxonID acceptedNameUsageID parentNameUsageID scientificName                  
-    &lt;dbl&gt;               &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt;                           
-1  572864                  NA            572788 Eulemur fulvus (É. Geoffroy Sai…
-2  572865                  NA            572788 Eulemur coronatus (Gray, 1842)  
-3  572866                  NA            572788 Eulemur macaco (Linnaeus, 1766) 
-4  572867                  NA            572788 Eulemur mongoz (Linnaeus, 1766) 
-5  572868                  NA            572788 Eulemur rubriventer (I. Geoffro…
-6  572869                  NA            572789 Hapalemur aureus Meier, Albigna…
-# ℹ 19 more variables: scientificNameAuthorship &lt;chr&gt;, kingdom &lt;chr&gt;,
-#   phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, superfamily &lt;chr&gt;, family &lt;chr&gt;,
-#   genus &lt;chr&gt;, subgenus &lt;lgl&gt;, specificEpithet &lt;chr&gt;,
-#   infraspecificEpithet &lt;chr&gt;, taxonRank &lt;chr&gt;, taxonomicStatus &lt;chr&gt;,
-#   modified &lt;date&gt;, namePublishedIn &lt;lgl&gt;, scientificNameID &lt;dbl&gt;,
-#   verbatimTaxonRank &lt;lgl&gt;, taxonRemarks &lt;chr&gt;, higherClassification &lt;chr&gt;</code></pre>
+<pre><code>ConservationStatus
+Endangered                   28
+Data Deficient / Unlisted    27
+Critically Endangered        10
+Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </section>
-<section id="making-a-tree" class="level2">
-<h2 class="anchored" data-anchor-id="making-a-tree">Making a tree</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(collapsibleTree)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">collapsibleTree</span>(</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  valid_species,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">hierarchy =</span> <span class="fu">c</span>(<span class="st">"family"</span>, <span class="st">"genus"</span>, <span class="st">"specificEpithet"</span>),</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">root =</span> <span class="st">"Lemuroidea"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">zoomable =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">collapsed =</span> <span class="cn">TRUE</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fig-lemur-hierarchy" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<section id="whats-the-verdict" class="level2">
+<h2 class="anchored" data-anchor-id="whats-the-verdict">What’s the verdict?</h2>
+<div id="cell-fig-conservation-pie" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> status_counts.index</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> status_counts.values</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"#d95f02"</span>, <span class="st">"#fdbf6f"</span>, <span class="st">"#7570b3"</span>, <span class="st">"#33a02c"</span>, <span class="st">"#b2df8a"</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">7</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>wedges, texts, autotexts <span class="op">=</span> ax.pie(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    sizes, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>labels, </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    startangle<span class="op">=</span><span class="dv">140</span>, </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    colors<span class="op">=</span>colors,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    textprops<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> autotext <span class="kw">in</span> autotexts:</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    autotext.set_weight(<span class="st">'bold'</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Lemuroidea Global Species Preservation Metrics"</span>, fontsize<span class="op">=</span><span class="dv">14</span>, weight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-conservation-pie" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-lemur-hierarchy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="collapsibleTree html-widget html-fill-item" id="htmlwidget-cb4fc10dd3243e7578e4" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-cb4fc10dd3243e7578e4">{"x":{"data":{"name":"Lemuroidea","children":[{"name":"Lemuridae","children":[{"name":"Eulemur","children":[{"name":"fulvus"},{"name":"coronatus"},{"name":"macaco"},{"name":"mongoz"},{"name":"rubriventer"},{"name":"rufus"},{"name":"rufifrons"},{"name":"albifrons"},{"name":"sanfordi"},{"name":"cinereiceps"},{"name":"collaris"},{"name":"flavifrons"}]},{"name":"Hapalemur","children":[{"name":"aureus"},{"name":"griseus"},{"name":"meridionalis"},{"name":"occidentalis"},{"name":"alaotrensis"}]},{"name":"Lemur","children":[{"name":"catta"}]},{"name":"Varecia","children":[{"name":"variegata"},{"name":"rubra"}]},{"name":"Prolemur","children":[{"name":"simus"}]}]},{"name":"Lepilemuridae","children":[{"name":"Lepilemur","children":[{"name":"dorsalis"},{"name":"edwardsi"},{"name":"leucopus"},{"name":"microdon"},{"name":"mustelinus"},{"name":"ruficaudatus"},{"name":"septentrionalis"},{"name":"betsileo"},{"name":"fleuretae"},{"name":"hollandorum"},{"name":"seali"},{"name":"scottorum"},{"name":"milanoii"},{"name":"ankaranensis"},{"name":"tymerlachsoni"},{"name":"otto"},{"name":"hubbardi"},{"name":"petteri"},{"name":"aeeclis"},{"name":"randrianasoloi"},{"name":"sahamalaza"},{"name":"ahmansoni"},{"name":"jamesi"},{"name":"wrighti"},{"name":"grewcocki"}]}]},{"name":"Indriidae","children":[{"name":"Avahi","children":[{"name":"laniger"},{"name":"mooreorum"},{"name":"peyrierasi"},{"name":"betsileo"},{"name":"ramanantsoavani"},{"name":"meridionalis"},{"name":"occidentalis"},{"name":"cleesei"},{"name":"unicolor"}]},{"name":"Indri","children":[{"name":"indri"}]},{"name":"Propithecus","children":[{"name":"diadema"},{"name":"tattersalli"},{"name":"verreauxi"},{"name":"coronatus"},{"name":"coquereli"},{"name":"edwardsi"},{"name":"candidus"},{"name":"perrieri"},{"name":"deckenii"}]}]}]},"options":{"hierarchy":["family","genus","specificEpithet"],"input":null,"attribute":"leafCount","linkLength":null,"fontSize":10,"tooltip":false,"collapsed":true,"zoomable":true,"margin":{"top":20,"bottom":20,"left":75,"right":100},"fill":"lightsteelblue"}},"evals":[],"jsHooks":[]}</script>
+<div aria-describedby="fig-conservation-pie-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-conservation-pie-output-1.png" width="676" height="562" class="figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lemur-hierarchy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Interactive taxonomic tree of the Lemuroidea superfamily from Family down to individual Species.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-conservation-pie-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Proportion of global Lemuroidea species belonging to distinct environmental conservation urgency brackets according to ITIS metadata records.
 </figcaption>
 </figure>
 </div>
 </div>
-<p>And that’s pretty fun! I don’t have little questions to help navigate, but I’ll come back to this. Someday.</p>
+</div>
+<p>So, um, yeah, go hug a lemur, I guess.</p>
 <section id="data-attribution" class="level3">
 <h3 class="anchored" data-anchor-id="data-attribution">Data Attribution</h3>
 <p>The data used in this post is the <strong>Lemuroidea superfamily taxonomic dataset</strong>, sourced directly from the <a href="https://itis.gov">Integrated Taxonomic Information System (ITIS)</a>. This publicly available dataset provides automated taxonomic data on lemurs, including valid scientific ranks, statuses, and hierarchical classifications.</p>
-<p><strong>AI Assistance Disclosure:</strong> This blog post was developed with the assistance of Gemini, an AI collaborator. Gemini was used as a pedagogical peer to help troubleshoot local <code>renv</code> library dependencies and design the interactive network graph layout. All final analytical conclusions and editorial writing were reviewed and finalized by the author.</p>
+<p><strong>AI Assistance Disclosure:</strong> This blog post was developed with the assistance of Gemini, an AI collaborator. Gemini was used to assist with designing the text-parsing required to clean unstructured regulatory text columns into categorical variables and design the graph layout. All final visualizations and content were verified and curated by the author.</p>
 
 
 </section>
