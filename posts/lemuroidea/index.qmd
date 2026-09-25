@@ -4,7 +4,7 @@ author: "Ariana Montgomery"
 date: 2026-09-23
 ---
 
-I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature.  Then I had a little decision tree with questions like "how many legs does it have?" to help me classify my critter.  I remember it being really convenient in comparison to flipping through a giant book of insects, and I've often looked for a similar approach for quick classification, but without much luck.  Which is probably an indication that my forth-grade science workbook was overly simplified.
+I remember a science activity when I was a child wherein I was tasked with finding a small insect or some such creature.  Then I had a little decision tree with questions like "how many legs does it have?" to help me classify my critter.  I remember it being really convenient in comparison to flipping through a giant book of insects, and I've often looked for a similar approach for quick classification, but without much luck.  Which is probably an indication that my fourth-grade science workbook was overly simplified.
 
 ![I'm shocked, I tell you.  Shocked.](surprised_lemur.jpg)
 
