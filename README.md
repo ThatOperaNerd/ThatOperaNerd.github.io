@@ -13,7 +13,7 @@ Ensure you have the following core software installed on your machine:
 
 ### Execution Steps
 
-#### 1. Clone the Repository
+#### 1. Clone the Repository and Navigate to the Root
 ```bash
 git clone https://github.com/ThatOperaNerd/ThatOperaNerd.github.io.git
 cd ThatOperaNerd.github.io
@@ -30,14 +30,8 @@ Bootstrap the local R library container to download the isolated rendering and g
 
 First, boot into your system's R console from the repository root:
 ```bash
-R
+R -e "renv::restore()"
 ```
-Inside the R terminal interface, run the restoration command:
-```R
-renv::restore()
-```
-*(When prompted to confirm the installation of package dependencies, type `Y` and press Enter).*
-
 
 #### 4. Compile and Render the Website
 ```bash
